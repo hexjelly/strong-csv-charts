@@ -10,10 +10,11 @@ jobs:
     name: lint
     runs-on: [ubuntu-latest]
     steps:
+      - uses: actions/checkout@v1
       - uses: gimenete/eslint-action@1.0
   build:
     name: build
-    runs-on: ubuntu-latest
+    runs-on: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
