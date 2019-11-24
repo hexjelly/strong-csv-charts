@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { FC, useState, ChangeEvent } from "react";
+import { CssBaseline, Container } from "@material-ui/core";
 
-const App: React.FC = () => {
+import ImportModule from "./modules/Import";
+import AppBar from "./components/AppBar";
+import TabContent from "./components/TabContent";
+
+const tabs = [{ label: "Import" }];
+
+const App: FC = () => {
+  const [tab, setTab] = useState(0);
+
+  const handleChange = (_event: ChangeEvent<{}>, index: number): void => {
+    setTab(index);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <CssBaseline />
+      <AppBar handleChange={handleChange} value={tab} tabs={tabs} />
+      <Container>
+        <TabContent value={tab} index={0}>
+          <ImportModule />
+        </TabContent>
+      </Container>
+    </>
   );
-}
+};
 
 export default App;
