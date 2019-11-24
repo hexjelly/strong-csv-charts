@@ -6,6 +6,11 @@ on:
     - master
 
 jobs:
+  lint:
+    name: lint
+    runs-on: [ubuntu-latest]
+    steps:
+      - uses: gimenete/eslint-action@1.0
   build:
     name: build
     runs-on: ubuntu-latest
@@ -16,5 +21,4 @@ jobs:
           node-version: 10.x 
       - run: yarn
       - run: yarn build
-      - run: yarn lint
       - run: yarn test
