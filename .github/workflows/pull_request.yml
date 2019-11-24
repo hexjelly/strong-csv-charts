@@ -1,0 +1,22 @@
+name: Build
+
+on:
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  build:
+    name: build
+    runs-on: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10.x 
+      - run: yarn
+      - run: yarn build
+      #- run: yarn lint # eslint just hangs forever for whatever reason.
+      - run: yarn test
+        env:
+          CI: true
