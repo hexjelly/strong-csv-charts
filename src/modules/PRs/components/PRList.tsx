@@ -41,8 +41,6 @@ const PRList: FC = () => {
   // calculate PRs
   // TODO: move this to another context probably?
   const workoutPRs = useMemo<PRList>(() => {
-    // first we'll need to group by date and exercise, because we want to check for volume,
-    // meaning we need to add up weights for all the sets
     /* eslint-disable no-param-reassign */ // thanks eslint you sure are smart
     return workouts.reduce<PRList>((prList, workout) => {
       if (prList[workout.exercise]) {
