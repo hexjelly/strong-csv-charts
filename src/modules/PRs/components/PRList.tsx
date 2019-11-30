@@ -1,5 +1,18 @@
-import React, { FC, useContext, useMemo, useState } from "react";
-import { Paper, Typography, Grid } from "@material-ui/core";
+import React, { FC, useContext, useMemo, useState, ChangeEvent } from "react";
+import {
+  Paper,
+  Typography,
+  Grid,
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  ExpansionPanelDetails,
+  Checkbox,
+  FormGroup,
+  FormControlLabel,
+  Collapse,
+  TextField
+} from "@material-ui/core";
+import { FilterList, ExpandMore } from "@material-ui/icons";
 import { format } from "date-fns";
 
 import { StorageContext } from "../../../contexts/Storage";
@@ -37,12 +50,22 @@ const PRList: FC = () => {
     showOneRM: true,
     showWeight: true
   });
+  const [search, setSearch] = useState("");
+
+  const handleSearch = (event: ChangeEvent<HTMLInputElement>): void => {
+    setSearch(event.target.value);
+  };
+
+  const handleChange = (field: string) => (
+    event: ChangeEvent<HTMLInputElement>
+  ): void => {
+    event.persist(); // we're using callback in our useState so we need to stop the synthetic event from being nullified
+    setFilter({ ...filter, [field]: event.target.checked });
+  };
 
   // calculate PRs
   // TODO: move this to another context probably?
   const workoutPRs = useMemo<PRList>(() => {
-    // first we'll need to group by date and exercise, because we want to check for volume,
-    // meaning we need to add up weights for all the sets
     /* eslint-disable no-param-reassign */ // thanks eslint you sure are smart
     return workouts.reduce<PRList>((prList, workout) => {
       if (prList[workout.exercise]) {
@@ -105,64 +128,139 @@ const PRList: FC = () => {
 
   return (
     <>
-      {Object.entries(workoutPRs).map(([workout, prs]) => (
-        <Paper key={workout}>
-          <Typography variant="h2" color="secondary">
-            {workout}
-          </Typography>
-          <Grid container>
-            <Grid container item>
-              <Grid item xs={8} sm={4}>
-                <Typography>
-                  Weight: {`${prs.weight} `}
-                  <Typography component="span" color="textSecondary">
-                    kg
-                  </Typography>
-                </Typography>
-              </Grid>
-              <Grid item xs={4} sm={2}>
-                <Typography color="textSecondary" align="right">
-                  {format(prs.date, "dd MMM yyyy")}
-                </Typography>
-              </Grid>
+      <ExpansionPanel>
+        <ExpansionPanelSummary
+          expandIcon={<ExpandMore />}
+          aria-controls="panel-content"
+          id="panel-header"
+        >
+          <FilterList style={{ marginRight: "0.5em" }} />
+          <Typography>Filter</Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          <Grid container direction="column">
+            <Grid item>
+              <TextField
+                label="Exercise name"
+                value={search}
+                onChange={handleSearch}
+                color="secondary"
+              />
             </Grid>
-            <Grid container item>
-              <Grid item xs={8} sm={4}>
-                <Typography>
-                  Vol: {`${prs.volume && prs.volume.total} `}
-                  <Typography component="span" color="textSecondary">
-                    kg
-                  </Typography>
-                  <Typography component="span" color="textSecondary">
-                    {` (${prs.volume &&
-                      `${prs.volume.weight}kg x ${prs.volume.reps}`})`}
-                  </Typography>
-                </Typography>
-              </Grid>
-              <Grid item xs={4} sm={2}>
-                <Typography color="textSecondary" align="right">
-                  {format(prs.date, "dd MMM yyyy")}
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid container item>
-              <Grid item xs={8} sm={4}>
-                <Typography>
-                  1RM: {`${prs.oneRepMax} `}
-                  <Typography component="span" color="textSecondary">
-                    kg
-                  </Typography>
-                </Typography>
-              </Grid>
-              <Grid item xs={4} sm={2}>
-                <Typography color="textSecondary" align="right">
-                  {format(prs.date, "dd MMM yyyy")}
-                </Typography>
-              </Grid>
+            <Grid item>
+              <FormGroup row>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={filter.showWeight}
+                      onChange={handleChange("showWeight")}
+                      value="showWeight"
+                      color="secondary"
+                    />
+                  }
+                  label="Weight"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={filter.showVolume}
+                      onChange={handleChange("showVolume")}
+                      value="showVolume"
+                      color="secondary"
+                    />
+                  }
+                  label="Volume"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={filter.showOneRM}
+                      onChange={handleChange("showOneRM")}
+                      value="showOneRM"
+                      color="secondary"
+                    />
+                  }
+                  label="1RM"
+                />
+              </FormGroup>
             </Grid>
           </Grid>
-        </Paper>
-      ))}
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
+      {Object.entries(workoutPRs)
+        .filter(([workout]) =>
+          workout.toLowerCase().includes(search.toLowerCase())
+        )
+        .map(([workout, prs]) => (
+          <Paper key={workout}>
+            <Typography variant="h2" color="secondary">
+              {workout}
+            </Typography>
+            <Grid container>
+              <Grid item>
+                <Collapse in={filter.showWeight}>
+                  <Grid container>
+                    <Grid item xs={8} sm={4}>
+                      <Typography>
+                        Weight: {`${prs.weight} `}
+                        <Typography component="span" color="textSecondary">
+                          kg
+                        </Typography>
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={4} sm={2}>
+                      <Typography color="textSecondary" align="right">
+                        {format(prs.date, "dd MMM yyyy")}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </Collapse>
+              </Grid>
+              <Grid item>
+                <Collapse in={filter.showVolume}>
+                  <Grid container>
+                    <Grid item xs={8} sm={4}>
+                      <Typography>
+                        Vol: {`${prs.volume && prs.volume.total} `}
+                        <Typography component="span" color="textSecondary">
+                          kg
+                        </Typography>
+                        <Typography component="span" color="textSecondary">
+                          {` (${prs.volume &&
+                            `${prs.volume.weight}kg x ${prs.volume.reps}`})`}
+                        </Typography>
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={4} sm={2}>
+                      <Typography color="textSecondary" align="right">
+                        {format(prs.date, "dd MMM yyyy")}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </Collapse>
+              </Grid>
+              <Grid item>
+                <Collapse in={filter.showOneRM}>
+                  <Grid container>
+                    <Grid item xs={8} sm={4}>
+                      <Typography>
+                        1RM: {`${prs.oneRepMax} `}
+                        <Typography component="span" color="textSecondary">
+                          kg
+                        </Typography>
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={4} sm={2}>
+                      <Typography color="textSecondary" align="right">
+                        {format(prs.date, "dd MMM yyyy")}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </Collapse>
+              </Grid>
+            </Grid>
+          </Paper>
+        ))}
     </>
   );
 };
