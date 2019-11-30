@@ -18,8 +18,6 @@ const AppBar: FC<AppBarProps> = ({ value, handleChange, tabs }) => (
       value={value}
       onChange={handleChange}
       centered
-      // indicatorColor="primary"
-      // textColor="primary"
       aria-label="tab menu navigation"
     >
       {tabs.map(tab => (
