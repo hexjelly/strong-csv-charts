@@ -35,6 +35,11 @@ export default createMuiTheme({
         }
       }
     },
+    MuiGrid: {
+      item: {
+        width: "100%"
+      }
+    },
     MuiExpansionPanelSummary: {
       expandIcon: {
         padding: "0 12px"
