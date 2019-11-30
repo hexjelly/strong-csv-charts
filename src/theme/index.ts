@@ -25,6 +25,38 @@ export default createMuiTheme({
         marginTop: "1.3rem",
         padding: "1rem"
       }
+    },
+    MuiExpansionPanel: {
+      root: {
+        "&$expanded": {
+          "&:first-child": {
+            marginTop: "1.3rem"
+          }
+        }
+      }
+    },
+    MuiExpansionPanelSummary: {
+      expandIcon: {
+        padding: "0 12px"
+      },
+      content: {
+        margin: 0,
+        "&$expanded": {
+          margin: 0
+        }
+      },
+      root: {
+        padding: 0,
+        minHeight: 0,
+        "&$expanded": {
+          minHeight: 0
+        }
+      }
+    },
+    MuiExpansionPanelDetails: {
+      root: {
+        padding: 0
+      }
     }
   }
 });
