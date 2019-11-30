@@ -4,6 +4,7 @@ import { CloudUpload, FitnessCenter } from "@material-ui/icons";
 import { ThemeProvider } from "@material-ui/core/styles";
 
 import ImportModule from "./modules/Import";
+import PRsModule from "./modules/PRs";
 import AppBar from "./components/AppBar";
 import TabContent from "./components/TabContent";
 import theme from "./theme";
@@ -15,7 +16,7 @@ const tabs = [
 ];
 
 const App: FC = () => {
-  const [tab, setTab] = useState(0);
+  const [tab, setTab] = useState(1);
 
   const handleChange = (_event: ChangeEvent<{}>, index: number): void => {
     setTab(index);
@@ -29,6 +30,9 @@ const App: FC = () => {
         <Container>
           <TabContent value={tab} index={0}>
             <ImportModule />
+          </TabContent>
+          <TabContent value={tab} index={1}>
+            <PRsModule />
           </TabContent>
         </Container>
       </ThemeProvider>

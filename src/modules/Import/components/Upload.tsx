@@ -21,14 +21,14 @@ const Upload: FC = () => {
             dataCopy.shift(); // first row is headers
             const workouts = dataCopy.map(
               (workout): Workout => ({
-                date: parseISO(workout[0]),
+                date: workout[0] && parseISO(workout[0]),
                 exercise: workout[2],
-                weight: workout[4],
+                weight: workout[4] && Number(workout[4]),
                 weightUnit: workout[5],
-                reps: workout[6],
-                distance: workout[7],
+                reps: workout[6] && Number(workout[6]),
+                distance: workout[7] && Number(workout[7]),
                 distanceUnit: workout[8],
-                seconds: workout[9]
+                seconds: workout[9] && Number(workout[9])
               })
             );
             setWorkouts(workouts);

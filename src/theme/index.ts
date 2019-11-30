@@ -8,6 +8,11 @@ export default createMuiTheme({
     secondary: deepOrange,
     type: "dark"
   },
+  typography: {
+    h2: {
+      fontSize: "1.1rem"
+    }
+  },
   overrides: {
     MuiAppBar: {
       root: {
@@ -17,8 +22,8 @@ export default createMuiTheme({
     },
     MuiPaper: {
       root: {
-        marginTop: "1.5rem",
-        padding: "1.5rem"
+        marginTop: "1.3rem",
+        padding: "1rem"
       }
     }
   }

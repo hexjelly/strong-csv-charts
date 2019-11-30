@@ -31,7 +31,12 @@ const StorageProvider: FC = props => {
     const localData = localStorage.getItem("strong-charts");
     if (localData) {
       try {
-        const parsedWorkouts = JSON.parse(localData);
+        const parsedWorkouts: WorkoutRecords = JSON.parse(
+          localData,
+          (key, value) => {
+            return key === "date" ? new Date(value) : value;
+          }
+        );
         setWorkouts(parsedWorkouts);
       } catch (err) {
         console.error(err);
