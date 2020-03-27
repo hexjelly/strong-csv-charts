@@ -9,7 +9,7 @@
     "@types/node": "13.9.3",
     "@types/react": "16.9.25",
     "@types/react-dom": "16.9.5",
-    "date-fns": "^2.11.0",
+    "date-fns": "^2.11.1",
     "papaparse": "^5.1.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.0",
