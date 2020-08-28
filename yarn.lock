@@ -1869,9 +1869,9 @@
   version "14.6.1"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.6.1.tgz#fdf6f6c6c73d3d8eee9c98a9a0485bc524b048d7"
 
-"@types/papaparse@^5.0.3":
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/@types/papaparse/-/papaparse-5.0.3.tgz#7cedc1ebc9484819af8306a8b42f9f08ca9bdb44"
+"@types/papaparse@^5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@types/papaparse/-/papaparse-5.2.0.tgz#6eb999e8b750746471c19274dbdce541de7885ab"
   dependencies:
     "@types/node" "*"
 
