@@ -1867,9 +1867,9 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
-"@types/jest@26.0.16":
-  version "26.0.16"
-  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-26.0.16.tgz#b47abd50f6ed0503f589db8e126fc8eb470cf87c"
+"@types/jest@26.0.17":
+  version "26.0.17"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-26.0.17.tgz#c63b44af7528bbc05974dfacc2c90fe13ed5534d"
   dependencies:
     jest-diff "^26.0.0"
     pretty-format "^26.0.0"
